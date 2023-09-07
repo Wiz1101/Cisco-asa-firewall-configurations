@@ -69,7 +69,7 @@ The commands we used to reset to factory default settings before starting:
    ciscoasa# conf t
    ```
 
-3. **Set Hostname** (Optional):
+3. **Setting Hostname** (Optional):
    - You can set a hostname for the ASA if desired:
 
    ```shell
@@ -79,8 +79,8 @@ The commands we used to reset to factory default settings before starting:
    ```
 
    
-
-4. **Configure Interfaces**:
+Done
+4. **Configuring Interfaces**:
    - Define the outside and inside interfaces.
 
    ```shell
@@ -99,16 +99,16 @@ The commands we used to reset to factory default settings before starting:
 
    - The above configuration says that Ethernet0/0 will be the interface for outside network and Ethernet0/1 is the interface for inside network.
 
-
-5. **Configure Routing**:
+Done
+5. **Configuring Routing**:
 
    ```shell
    G5-ASA-5510(config)# route outside 0 0 192.168.0.1
 
    ```
 Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
-
-6. **Configure DHCP inside**:
+Done
+6. **Configuring DHCP inside**:
 
    ```shell
    G5-ASA-5510(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
@@ -117,7 +117,7 @@ Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200
    G5-ASA-5510(config)# wr mem
    ```
 
-7. **Configure NAT**:
+7. **Configuring NAT**:
    - Configure basic NAT to allow inside devices to access the internet:
 
    ```shell
@@ -127,7 +127,9 @@ Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200
    G5-ASA-5510(config)# object network myInsNet  
    G5-ASA-5510(config-network-object)# subnet 10.0.0.0 255.255.255.0  
    G5-ASA-5510(config-network-object)# nat (inside,outside) dynamic myNatPool
-   G5-ASA-5510(config-network-object)# exit  
+   G5-ASA-5510(config-network-object)# exit 
+   
+   TODO 
    G5-ASA-5510(config)# object network myLinuxServer
    G5-ASA-5510(config-network-object)# host 192.168.0.50  
    G5-ASA-5510(config-network-object)# nat (outside,inside) static 192.168.2.13
@@ -137,8 +139,16 @@ Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200
 
    ```
 
+8. **Configuring Access Control List (ACL)**:
 
-8. **Configure DNS**:
+   ```shell
+
+    G5-ASA-5510(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0
+    G5-ASA-5510(config)# access-group allow_icmp_inside in interface inside
+    G5-ASA-5510(config)# wr mem
+   ```
+
+9. **Configuring DNS**:
 
    ```shell
 
