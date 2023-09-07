@@ -1,15 +1,8 @@
 The commands we used to reset to factory default settings before starting
 
-**Important Note**: 
-
-
 Linux server login creds: 
 - username: group5
 - password: group5 
-
-dhcpd address range inside: 10.0.0.100 - 10.0.0.200 
-
-
 
 1. **Firewall (Cisco ASA 5510)**:
 
@@ -37,9 +30,6 @@ dhcpd address range inside: 10.0.0.100 - 10.0.0.200
     ap# write erase
     ap# reload
    ```
-
-starting with fresshh ASA 
-To configure a Cisco ASA 5510 with default settings to allow internet access while separating the outside and inside networks with basic NAT and DHCP, follow these steps:
 
 **Important Note**: Before proceeding, ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
@@ -95,6 +85,7 @@ To configure a Cisco ASA 5510 with default settings to allow internet access whi
    G5-ASA-5510(config)# route 0 0 192.168.0.0 
 
    ```
+Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
 
 6. **Configure DHCP inside**:
 
