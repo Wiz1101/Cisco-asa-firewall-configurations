@@ -103,7 +103,7 @@ The commands we used to reset to factory default settings before starting:
 5. **Configure Routing**:
 
    ```shell
-   G5-ASA-5510(config)# route 0 0 192.168.0.0 
+   G5-ASA-5510(config)# route outside 0 0 192.168.0.1
 
    ```
 Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
