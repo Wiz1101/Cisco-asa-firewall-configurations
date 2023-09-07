@@ -1,6 +1,6 @@
 # Group 5
 
-
+Labs:
 Day | Time    
 -| -| 
 Thursday |  10:00 - 12:00
