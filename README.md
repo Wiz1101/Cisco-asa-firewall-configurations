@@ -1,8 +1,13 @@
-The commands we used to reset to factory default settings before starting
 
 Linux server login creds: 
 - username: group5
 - password: group5 
+
+Windows server login creds: 
+- username: Administrator
+- password: Group5 
+
+The commands we used to reset to factory default settings before starting
 
 1. **Firewall (Cisco ASA 5510)**:
 
@@ -30,7 +35,7 @@ Linux server login creds:
     ap# write erase
     ap# reload
    ```
-
+# The configuration steps on devices
 **Important Note**: Before proceeding, ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
 1. **Connect to the Cisco ASA 5510**:
