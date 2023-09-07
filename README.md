@@ -111,7 +111,7 @@ Done
 
 6. **Configuring DHCP & DNS inside**:
     - Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
-    - We binded DNS to OpenDNS servers
+    - We binded DNS to OpenDNS servers (More Secure)
    ```shell
    G5-ASA-5510(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
    G5-ASA-5510(config)# dhcpd dns 208.67.222.222 208.67.220.220
