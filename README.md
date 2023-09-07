@@ -1,3 +1,19 @@
+# Group 5
+
+
+Day | Time    
+-| -| 
+Thursday |  10:00 - 12:00
+Friday | 10:00 - 12:00
+
+
+Team Members
+- Khairallah Ahmad Obay
+- Napetvaridze Shota
+- Palomares Estrella Hugo Edgar
+- Rindebrant Wictor
+- Shaban Ryustem
+
 
 Linux server login creds: 
 - username: group5
@@ -7,7 +23,7 @@ Windows server login creds:
 - username: Administrator
 - password: Group5 
 
-The commands we used to reset to factory default settings before starting
+The commands we used to reset to factory default settings before starting:
 
 1. **Firewall (Cisco ASA 5510)**:
 
@@ -35,7 +51,7 @@ The commands we used to reset to factory default settings before starting
     ap# write erase
     ap# reload
    ```
-# The configuration steps on devices
+## The configuration steps on devices
 **Important Note**: Before proceeding, ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
 1. **Connect to the Cisco ASA 5510**:
