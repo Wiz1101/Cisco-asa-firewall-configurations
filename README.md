@@ -26,6 +26,8 @@ Windows server login creds:
 The commands we used to reset to factory default settings before starting:
 
 1. **Firewall (Cisco ASA 5510)**:
+    - useful commands: # show running-config
+
 
    ```shell
     G5-ASA-5510> enable
@@ -99,19 +101,20 @@ Done
 
    - The above configuration says that Ethernet0/0 will be the interface for outside network and Ethernet0/1 is the interface for inside network.
 
-Done
-5. **Configuring Routing**:
+5. **Configuring Routing(from inside to outside)**:
 
    ```shell
    G5-ASA-5510(config)# route outside 0 0 192.168.0.1
-
    ```
-Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
-Done
-6. **Configuring DHCP inside**:
 
+
+
+6. **Configuring DHCP & DNS inside**:
+    - Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
+    - We binded DNS to OpenDNS servers
    ```shell
    G5-ASA-5510(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
+   G5-ASA-5510(config)# dhcpd dns 208.67.222.222 208.67.220.220
    G5-ASA-5510(config)# dhcpd lease 7200                          
    G5-ASA-5510(config)# dhcpd enable inside 
    G5-ASA-5510(config)# wr mem
