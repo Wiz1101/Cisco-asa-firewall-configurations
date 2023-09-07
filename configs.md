@@ -46,7 +46,7 @@ To configure a Cisco ASA 5510 with default settings to allow internet access whi
    G5-ASA-5510(config)# wr mem
    ```
 
-   - The above configuration says that Ethernet0/0 is the outside interface and Ethernet0/1 is the inside interface.
+   - The above configuration says that Ethernet0/0 will be the interface for outside network and Ethernet0/1 is the interface for inside network.
 
 
 5. **Configure Routing**:
@@ -56,21 +56,16 @@ To configure a Cisco ASA 5510 with default settings to allow internet access whi
 
    ```
 
-
 6. **Configure DHCP inside**:
 
    ```shell
    G5-ASA-5510(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
-   G5-ASA-5510(config)# dhcpd dns 10.0.0.2 interface inside   
    G5-ASA-5510(config)# dhcpd lease 7200                          
    G5-ASA-5510(config)# dhcpd enable inside 
    G5-ASA-5510(config)# wr mem
    ```
 
-
-
-
-5. **Configure NAT**:
+7. **Configure NAT**:
    - Configure basic NAT to allow inside devices to access the internet:
 
    ```shell
@@ -87,5 +82,12 @@ To configure a Cisco ASA 5510 with default settings to allow internet access whi
    G5-ASA-5510(config-network-object)# exit
    G5-ASA-5510(config)# same-security-traffic permit inter-interface
    G5-ASA-5510(config)# wr mem 
+
+   ```
+
+
+8. **Configure DNS**:
+
+   ```shell
 
    ```
