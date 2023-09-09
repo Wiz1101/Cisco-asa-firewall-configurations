@@ -156,3 +156,40 @@ Done
    ```shell
 
    ```
+
+## The configuration steps on Servers
+1. **Configuring static IP for linux server**:
+   - We have to edit "/etc/netplan/00-installer-config.yaml" file
+   ```shell
+   network:
+      version: 2
+      renderer: networkd
+      ethernets:
+         eth0:
+            addresses:
+               - 10.0.0.250/24
+            routes:
+               - to: default
+                 via: 10.10.10.1
+            nameservers:
+               addresses: [208.67.222.222, 208.67.220.220]
+
+   ```
+   ```shell
+   $ sudo netplan apply
+
+   ```
+1. **Configuring HTTP server on linux**:
+
+   ```shell
+   $ sudo apt install apache2
+   $ sudo ufw enable 
+
+
+   ```
+
+2. **Configuring FTP server on linux**:
+
+   ```shell
+
+   ```
