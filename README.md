@@ -21,7 +21,7 @@ login creds:
 - username: group5
 - password: group5 
 
-Windows server login creds: 
+Windows server: 
 - IP: 10.0.0.254 <br> 
 login creds:
 - username: group5.local
@@ -31,6 +31,11 @@ Access Point (Cisco Aeronet 3502 series):
 - IP: 10.0.0.99 <br> 
 login creds:
 - username: Group5 Cisco
+- password: SecretGroup5 
+
+Access Point (UniFi U6-Pro): 
+login creds:
+- username: Group5
 - password: SecretGroup5 
 
 The commands we used to reset to factory default settings before starting:
@@ -142,7 +147,6 @@ Done
    G5-ASA-5510(config-network-object)# nat (inside,outside) dynamic myNatPool
    G5-ASA-5510(config-network-object)# exit 
    
-   TODO 
    G5-ASA-5510(config)# object network myLinServ
    G5-ASA-5510(config-network-object)# host 192.168.0.50  
    G5-ASA-5510(config-network-object)# nat (inside,outside) static 10.0.0.250
@@ -161,13 +165,9 @@ Done
     G5-ASA-5510(config)# wr mem
    ```
 
-9. **Configuring DNS**:
-
-   ```shell
-
-   ```
 
 ## The configuration steps on Servers
+
 1. **Configuring static IP for linux server**:
    - We have to edit "/etc/netplan/00-installer-config.yaml" file
    ```shell
@@ -200,7 +200,7 @@ Done
    $ sudo ufw allow 40000:50000/tcp
    $ systemctl status apache2
    ```
-   - Also we edited /etc/vsftpd.conf file for FTP on the ubuntu server side and 
+   - Also we edited /etc/vsftpd.conf file for FTP on the ubuntu server side. 
    - **Important Note**: We also allowed SSH traffic for our group's convenience.
 
 
