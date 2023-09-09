@@ -15,13 +15,23 @@ Team Members
 - Shaban Ryustem
 
 
-Linux server login creds: 
+Linux server:
+- IP: 10.0.0.250 <br> 
+login creds:
 - username: group5
 - password: group5 
 
 Windows server login creds: 
-- username: Administrator
-- password: Group5 
+- IP: 10.0.0.254 <br> 
+login creds:
+- username: group5.local
+- password: Group5
+
+Access Point (Cisco Aeronet 3502 series): 
+- IP: 10.0.0.99 <br> 
+login creds:
+- username: Group5 Cisco
+- password: SecretGroup5 
 
 The commands we used to reset to factory default settings before starting:
 
@@ -133,9 +143,9 @@ Done
    G5-ASA-5510(config-network-object)# exit 
    
    TODO 
-   G5-ASA-5510(config)# object network myLinuxServer
+   G5-ASA-5510(config)# object network myLinServ
    G5-ASA-5510(config-network-object)# host 192.168.0.50  
-   G5-ASA-5510(config-network-object)# nat (outside,inside) static 192.168.2.13
+   G5-ASA-5510(config-network-object)# nat (inside,outside) static 10.0.0.250
    G5-ASA-5510(config-network-object)# exit
    G5-ASA-5510(config)# same-security-traffic permit inter-interface
    G5-ASA-5510(config)# wr mem 
@@ -179,17 +189,25 @@ Done
    $ sudo netplan apply
 
    ```
-1. **Configuring HTTP server on linux**:
-
+2. **Configuring HTTP and FTP server on linux**:
+   
    ```shell
    $ sudo apt install apache2
+   $ sudo apt install vsftpd
    $ sudo ufw enable 
-
-
+   $ sudo ufw allow 'Apache Full'
+   $ sudo ufw allow 20,21,22,990/tcp
+   $ sudo ufw allow 40000:50000/tcp
+   $ systemctl status apache2
    ```
+   - Also we edited /etc/vsftpd.conf file for FTP on the ubuntu server side and 
+   - **Important Note**: We also allowed SSH traffic for our group's convenience.
 
-2. **Configuring FTP server on linux**:
+
+
+3. **Configuring Active Directory on Windows Server**:
 
    ```shell
+   
 
    ```
