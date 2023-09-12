@@ -331,5 +331,3 @@ That's it! You have configured the Cisco Aironet access point's BVI1 interface u
 10. Switch(config)# interface Fa0/1 (We check on which port the switch is connected to the ASA 5510 in our case it was 0/1)
 11. Switch(config-if)# switchport trunk encapsulation dot1q
 12. Switch(config-if)# switchport mode trunk allowed vlan all
-
-![Alt text](Screenshot_2023-09-11_at_15.20.39.png)
