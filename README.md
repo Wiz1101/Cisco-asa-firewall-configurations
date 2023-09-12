@@ -39,6 +39,11 @@ login creds:
 - password: SecretGroup5 
 
 
+Firewall (Netgate SG-2100): 
+login creds:
+- username: admin
+- password: group5 
+
 <br>
 <br>
 
@@ -49,7 +54,6 @@ The commands we used to reset to factory default settings before starting:
 1. **Firewall (Cisco ASA 5510)**:
     - useful commands: # show running-config
 
-
    ```shell
     G5-ASA-5510> enable
     G5-ASA-5510# conf t
@@ -57,14 +61,16 @@ The commands we used to reset to factory default settings before starting:
     G5-ASA-5510(config)# wr mem
    ```
 
+1. **Firewall (Netgate SG-2100)**:
+    - We chose the 4th option to reset to default factory settings 
+   ![Alt text](<Screenshot 2023-09-12 at 13.30.00.png>)
+
 2. **Switch (Cisco Catalyst 3550 SERIES)**:
 
    ```shell
-    Switch> enable
-    Switch# conf t
-    Switch(config)# configure factory-default
-    Switch(config)# no spanning-tree vlan 1
-    Switch(config)# wr mem
+   Switch> en
+   Switch# write erase 
+   Switch# reload 
    ```
 
 2. **Access Point (Cisco Aeronet 3502 series)**:
@@ -74,7 +80,8 @@ The commands we used to reset to factory default settings before starting:
     ap# write erase
     ap# reload
    ```
-## The configuration steps on devices
+
+## The configuration steps on Cisco ASA 5510
 **Important Note**: Before proceeding, ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
 1. **Connect to the Cisco ASA 5510**:
@@ -240,9 +247,89 @@ Done
    25. Once downloaded get the Unifi software https://ui.com/download/releases/network-server try to get one of the older version 7.4.162.
    26. Open the unifi software
 
+## The configuration steps on APs
+**1. UniFi U6-Pro**
+ - To configure UniFi U6-Pro AP we followed guide on my moodle, downloaded one older UniFi server. Allowed the server thorugh the windows firewall. Simple setup with wifi in the UniFi server UI.
+
+**2. Access Point Cisco Aeronet 3502 series**
+- To configure a Cisco Aironet access point using PuTTY, you'll need to connect to the access point via its command-line interface (CLI) over SSH or Telnet. Here are the steps to do this:
+
+**Note**: Before proceeding, make sure you have PuTTY installed on your computer.
+
+1. **Connect to the Access Point**:
+   - Ensure your computer is connected to the same network as the Cisco Aironet access point.
+   - Launch PuTTY.
+
+2. **Open a New Session**:
+   - In the PuTTY configuration window, enter the IP address or hostname of the access point in the "Host Name (or IP address)" field.
+   - Choose the connection type:
+     - For SSH, select "SSH."
+     - For Telnet, select "Telnet."
+   - Enter the port number (usually 22 for SSH or 23 for Telnet).
+
+3. **Initiate the Connection**:
+   - Click the "Open" button to initiate the connection.
+
+4. **Login**:
+   - Once the connection is established, you will be prompted to log in.
+   - Enter the username and password for the access point. By default, the username and password are both "cisco" (without the quotes). If these credentials have been changed, use the updated login credentials.
+
+5. **Access the Command-Line Interface (CLI)**:
+   - After successfully logging in, you will have access to the command-line interface (CLI) of the Cisco Aironet access point.
+
+6. **Configure the BVI1 Interface**:
+   - To configure the BVI1 interface and assign an IP address and netmask, use the following commands:
+   
+   ```
+   enable
+   configure terminal
+   interface BVI1
+   ip address <IP_ADDRESS> <NETMASK>
+   exit
+   exit
+   ```
+
+   Replace `<IP_ADDRESS>` with the desired IP address (e.g., `192.168.1.2`) and `<NETMASK>` with the subnet mask (e.g., `255.255.255.0`).
+
+7. **Save Configuration**:
+   - To save your configuration, use the following command:
+   
+   ```
+   write memory
+   ```
+
+   This command saves your changes to the device's configuration.
+
+8. **Exit PuTTY**:
+   - Type `exit` to log out of the access point's CLI, and then close the PuTTY session.
+
+9. **Verify Configuration**:
+   - You can verify the configuration by trying to access the access point's web GUI using the new IP address you configured for the BVI1 interface.
+
+That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
+
+## Switching to Netgate SG-2100 Firewall
+
 
 
 <br>
 <br>
 
 # Assignment 2
+## 1. Using Cisco ASA 5510 firewall  
+**Cisco Switch configuration for VLANs**
+1. Switch enable
+2. Switch# vlan d
+3. Switch(vlan)# vlan 10 name Trusted
+4. Switch(vlan)# end
+5. Switch# conf t
+6. Switch(config)# interface Fa0/1
+7. Switch(config-if)# switchport mode access vlan 10
+8. Switch(config-if)# end
+--- FOR ALL THE 4 VLANS and 5 Ports assigned each ---
+9. Switch# conf t
+10. Switch(config)# interface Fa0/1 (We check on which port the switch is connected to the ASA 5510 in our case it was 0/1)
+11. Switch(config-if)# switchport trunk encapsulation dot1q
+12. Switch(config-if)# switchport mode trunk allowed vlan all
+
+![Alt text](Screenshot_2023-09-11_at_15.20.39.png)
