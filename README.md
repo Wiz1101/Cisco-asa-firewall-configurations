@@ -38,6 +38,12 @@ login creds:
 - username: Group5
 - password: SecretGroup5 
 
+
+<br>
+<br>
+
+# Assignment 1
+
 The commands we used to reset to factory default settings before starting:
 
 1. **Firewall (Cisco ASA 5510)**:
@@ -207,7 +213,36 @@ Done
 
 3. **Configuring Active Directory on Windows Server**:
 
-   ```shell
-   
+   1. Connect the ethernet cable to the laptop since promoting to Domain controller you need active connection
+   2. Assign static ip from outside of the pool range to the server like 10.0.0.254.
+    Control Panel --> Network and Internet --> Network and Sharing Center --> Change Adapter Settings which is on the left hand side --> Select the Ethernet and right click on Priorities --> Choose Internet Protocol version 4 --> choose properties and assign the required IP and gateway + the DNS also.check it with ipconfig.
+   3. Now you can finish up promoting the server to domain controller
+   4. On Internet Explorer go to Tools which is on the right top
+   5. Choose Internet Options
+   6. Go to security panel which is on top right of the new window
+   7. Choose Custom Level
+   8. Find Downloads
+   9. File Download -- Enable
+   10. Font Download  -- Enable
+   11. Enable. NET framework -- Enable
+   12. Find Scripting at the same page1
+   13. Active Scripting -- Enable
+   14. Allow programmatic clipboard access -- Promt
+   15. Allow Status bar updates via script --Enable
+   16. Scripting for Java applets -- Enable
+   17. Go to search bar and find Windows Firewall (not with advanced security)
+   19. on the right side choose Turn on windows firewall on or off
+   20. Domain Network settings -- Notify me when Windows firewall blocks a new app ( Windows firewall turned on here)
+   21. Private Network settings -- Notify me when Windows Firewall blocks a new app ( Windows firewall is on here)
+   22. Public network settings -- Notify me when windows firewall blocks a new app ( Firewall is on here)
+   23. Download Google Chrome
+   24. Install Java 11
+   25. Once downloaded get the Unifi software https://ui.com/download/releases/network-server try to get one of the older version 7.4.162.
+   26. Open the unifi software
 
-   ```
+
+
+<br>
+<br>
+
+# Assignment 2
