@@ -308,7 +308,7 @@ Done
 
 That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
 
-## Switching to Netgate SG-2100 Firewall
+## Replacing Cisco ASA 5510 with Netgate SG-2100 Firewall
 
 
 
