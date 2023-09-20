@@ -8,7 +8,6 @@ Friday | 10:00 - 12:00
 
 
 Team Members
-- Khairallah Ahmad Obay
 - Napetvaridze Shota
 - Palomares Estrella Hugo Edgar
 - Rindebrant Wictor
@@ -18,31 +17,17 @@ Team Members
 Linux server:
 - IP: 10.0.0.250 <br> 
 login creds:
-- username: group5
-- password: group5 
+
 
 Windows server: 
 - IP: 10.0.0.254 <br> 
-login creds:
-- username: group5.local
-- password: Group5
+
+
 
 Access Point (Cisco Aeronet 3502 series): 
 - IP: 10.0.0.99 <br> 
-login creds:
-- username: Group5 Cisco
-- password: SecretGroup5 
-
-Access Point (UniFi U6-Pro): 
-login creds:
-- username: Group5
-- password: SecretGroup5 
 
 
-Firewall (Netgate SG-2100): 
-login creds:
-- username: admin
-- password: group5 
 
 <br>
 <br>
