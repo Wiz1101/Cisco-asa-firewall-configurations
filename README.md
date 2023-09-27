@@ -1,37 +1,3 @@
-# Group 5
-
-Labs:
-Day | Time    
--| -| 
-Thursday |  10:00 - 12:00
-Friday | 10:00 - 12:00
-
-
-Team Members
-- Napetvaridze Shota
-- Palomares Estrella Hugo Edgar
-- Rindebrant Wictor
-- Shaban Ryustem
-
-
-Linux server:
-- IP: 10.0.0.250 <br> 
-login creds:
-
-
-Windows server: 
-- IP: 10.0.0.254 <br> 
-
-
-
-Access Point (Cisco Aeronet 3502 series): 
-- IP: 10.0.0.99 <br> 
-
-
-
-<br>
-<br>
-
 # Assignment 1
 
 The commands we used to reset to factory default settings before starting:
@@ -40,10 +6,10 @@ The commands we used to reset to factory default settings before starting:
     - useful commands: # show running-config
 
    ```shell
-    G5-ASA-5510> enable
-    G5-ASA-5510# conf t
-    G5-ASA-5510(config)# configure factory-default
-    G5-ASA-5510(config)# wr mem
+   G5-ASA-5510> enable
+   G5-ASA-5510# conf t
+   G5-ASA-5510(config)# configure factory-default
+   G5-ASA-5510(config)# wr mem
    ```
 
 1. **Firewall (Netgate SG-2100)**:
@@ -61,13 +27,31 @@ The commands we used to reset to factory default settings before starting:
 2. **Access Point (Cisco Aeronet 3502 series)**:
 
    ```shell
-    ap> en
-    ap# write erase
-    ap# reload
+   ap> en
+   ap# write erase
+   ap# reload
    ```
 
 ## The configuration steps on Cisco ASA 5510
-**Important Note**: Before proceeding, ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
+
+**Connect to the Console Port with Mac oS**
+
+   - Step 1. Use the Finder to go to Applications > Utilities > Terminal
+
+   - Step 2. Connect the OS USB port to the ASA
+
+   - Step 3. Enter the following commands to find the OS X USB port number:
+   Example:
+
+   ```shell
+   macbook:user$ cd /dev
+   macbook:user$ ls -ltr /dev/*usb*
+   crw-rw-rw- 1 root wheel 9, 66 Apr 1 16:46 tty.usbmodem1a21 
+   macbook:user$ screen /dev/tty.usbmodem1a21 9600
+   ```
+**Connect to the Console Port with Windows**
+
+Ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
 1. **Connect to the Cisco ASA 5510**:
    - Connect one end of the console cable to the console port on the ASA 5510.
@@ -90,11 +74,8 @@ The commands we used to reset to factory default settings before starting:
    ```shell
    ciscoasa(config)# hostname G5-ASA-5510
    G5-ASA-5510(config)# wr mem
-
    ```
 
-   
-Done
 4. **Configuring Interfaces**:
    - Define the outside and inside interfaces.
 
@@ -127,7 +108,7 @@ Done
     - We binded DNS to OpenDNS servers (More Secure)
    ```shell
    G5-ASA-5510(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
-   G5-ASA-5510(config)# dhcpd dns 208.67.222.222 208.67.220.220
+   G5-ASA-5510(config)# dhcpd dns 8.8.8.8 8.8.4.4
    G5-ASA-5510(config)# dhcpd lease 7200                          
    G5-ASA-5510(config)# dhcpd enable inside 
    G5-ASA-5510(config)# wr mem
@@ -151,42 +132,40 @@ Done
    G5-ASA-5510(config-network-object)# exit
    G5-ASA-5510(config)# same-security-traffic permit inter-interface
    G5-ASA-5510(config)# wr mem 
-
    ```
 
 8. **Configuring Access Control List (ACL)**:
 
    ```shell
 
-    G5-ASA-5510(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0
-    G5-ASA-5510(config)# access-group allow_icmp_inside in interface inside
-    G5-ASA-5510(config)# wr mem
+   G5-ASA-5510(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0
+   G5-ASA-5510(config)# access-group allow_icmp_inside in interface inside
+   G5-ASA-5510(config)# wr mem
    ```
 
 
 ## The configuration steps on Servers
 
-1. **Configuring static IP for linux server**:
-   - We have to edit "/etc/netplan/00-installer-config.yaml" file
-   ```shell
-   network:
-      version: 2
-      renderer: networkd
-      ethernets:
-         eth0:
-            addresses:
-               - 10.0.0.250/24
-            routes:
-               - to: default
-                 via: 10.10.10.1
-            nameservers:
-               addresses: [208.67.222.222, 208.67.220.220]
-
-   ```
-   ```shell
-   $ sudo netplan apply
-
-   ```
+1. **Configuration steps for assigning static IP to linux server**:
+   1. We have to edit "/etc/netplan/00-installer-config.yaml" file
+      ```shell
+      network:
+         version: 2
+         renderer: networkd
+         ethernets:
+            eth0:
+               addresses:
+                  - 10.0.0.250/24
+               routes:
+                  - to: default
+                  via: 10.10.10.1
+               nameservers:
+                  addresses: [8.8.8.8, 8.8.4.4]
+      ```
+   2. ```shell
+      $ sudo netplan apply
+      ```
+   
 2. **Configuring HTTP and FTP server on linux**:
    
    ```shell
@@ -198,9 +177,12 @@ Done
    $ sudo ufw allow 40000:50000/tcp
    $ systemctl status apache2
    ```
-   - Also we edited /etc/vsftpd.conf file for FTP on the ubuntu server side. 
-   - **Important Note**: We also allowed SSH traffic for our group's convenience.
-
+   - Also we edited /etc/vsftpd.conf file for FTP on the ubuntu server side where we added these two rules in the end of the file:
+   ```shell
+   pasv_enable=Yes
+   pasv_max_port=50000
+   pasv_min_port=40000
+   ```
 
 
 3. **Configuring Active Directory on Windows Server**:
@@ -297,22 +279,4 @@ That's it! You have configured the Cisco Aironet access point's BVI1 interface u
 
 
 
-<br>
-<br>
 
-# Assignment 2
-## 1. Using Cisco ASA 5510 firewall  
-**Cisco Switch configuration for VLANs**
-1. Switch enable
-2. Switch# vlan d
-3. Switch(vlan)# vlan 10 name Trusted
-4. Switch(vlan)# end
-5. Switch# conf t
-6. Switch(config)# interface Fa0/1
-7. Switch(config-if)# switchport mode access vlan 10
-8. Switch(config-if)# end
---- FOR ALL THE 4 VLANS and 5 Ports assigned each ---
-9. Switch# conf t
-10. Switch(config)# interface Fa0/1 (We check on which port the switch is connected to the ASA 5510 in our case it was 0/1)
-11. Switch(config-if)# switchport trunk encapsulation dot1q
-12. Switch(config-if)# switchport mode trunk allowed vlan all
