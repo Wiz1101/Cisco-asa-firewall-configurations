@@ -69,7 +69,7 @@ A small writeup how to configure network
    ciscoasa# conf t
    ```
 
-3. **Setting Hostname** (Optional):
+3. **Set Hostname** (Optional):
    - You can set a hostname for the ASA if desired:
 
    ```shell
@@ -77,7 +77,7 @@ A small writeup how to configure network
    Firewall(config)# wr mem
    ```
 
-4. **Configuring Interfaces**:
+4. **Configure Interfaces**:
    - Define the outside and inside interfaces.
 
    ```shell
@@ -96,7 +96,7 @@ A small writeup how to configure network
 
    - The above configuration says that Ethernet0/0 will be the interface for outside network and Ethernet0/1 is the interface for inside network.
 
-5. **Configuring Routing(from inside to outside)**:
+5. **Configure Routing(from inside to outside)**:
 
    ```shell
    Firewall(config)# route outside 0 0 192.168.0.1
@@ -104,7 +104,7 @@ A small writeup how to configure network
 
 
 
-6. **Configuring DHCP & DNS inside**:
+6. **Configure DHCP & DNS inside**:
     - Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
     - We binded DNS to OpenDNS servers (More Secure)
    ```shell
@@ -115,7 +115,7 @@ A small writeup how to configure network
    Firewall(config)# wr mem
    ```
 
-7. **Configuring NAT**:
+7. **Configure NAT**:
    - Configure basic NAT to allow inside devices to access the internet:
 
    ```shell
@@ -134,7 +134,7 @@ A small writeup how to configure network
    Firewall(config)# wr mem 
    ```
 
-8. **Configuring Access Control List (ACL)**:
+8. **Configure Access Control List (ACL)**:
 
    ```shell
    Firewall(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0
@@ -142,7 +142,7 @@ A small writeup how to configure network
    Firewall(config)# wr mem
    ```
 
-   ### Configuring VLANs for Firewall (Cisco ASA 5510)
+   ### Configure VLANs for Firewall (Cisco ASA 5510)
       1. Configure Subinterfaces on Cisco ASA Firewall for VLANs 
          ```shell
          Firewall(config)# interface e0/1.10
