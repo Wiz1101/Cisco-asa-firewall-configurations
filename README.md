@@ -38,23 +38,21 @@ A small writeup how to configure network
 
 ## Configuring Firewall (Cisco ASA 5510)
 
-* **Connect to the Console Port with MacOS or Linux**
+   * **Connect to the Console Port with MacOS or Linux**
 
-   - Step 1. Use the Finder to go to Applications > Utilities > Terminal
+      - Step 1. Use the Finder to go to Applications > Utilities > Terminal
 
-   - Step 2. Connect the OS USB port to the ASA
+      - Step 2. Connect the OS USB port to the ASA
 
-   - Step 3. Enter the following commands to find the OS X USB port number:
-   Example:
-
-   ```shell
-   macbook:user$ cd /dev
-   macbook:user$ ls -ltr /dev/*usb*
-   crw-rw-rw- 1 root wheel 9, 66 Apr 1 16:46 tty.usbmodem1a21 
-   macbook:user$ screen /dev/tty.usbmodem1a21 9600
-   ```
-* **Connect to the Console Port with Windows**<br>
-   Ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
+      - Step 3. Enter the following commands to find the OS X USB port number:
+         ```shell
+         macbook:user$ cd /dev
+         macbook:user$ ls -ltr /dev/*usb*
+         crw-rw-rw- 1 root wheel 9, 66 Apr 1 16:46 tty.usbmodem1a21 
+         macbook:user$ screen /dev/tty.usbmodem1a21 9600
+         ```
+   * **Connect to the Console Port with Windows**<br>
+      - Ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
 1. **Connect to the Cisco ASA 5510**:
    - Connect one end of the console cable to the console port on the ASA 5510.
