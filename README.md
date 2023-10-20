@@ -1,17 +1,21 @@
-# Configurations on Cisco ASA firewall
+# Configurations on Cisco equipement
 
-The commands we used to reset to factory default settings before starting:
+Equipement:
+
+* Firewall (Cisco ASA 5510)
+* Switch (Cisco Catalyst 3550 SERIES)
+* Access Point (Cisco Aeronet 3502 series)
+
+
+## Configuring Cisco equipment to it's factory settings 
 
 1. **Firewall (Cisco ASA 5510)**:
-    - useful commands: # show running-config
-
    ```shell
    G5-ASA-5510> enable
    G5-ASA-5510# conf t
    G5-ASA-5510(config)# configure factory-default
    G5-ASA-5510(config)# wr mem
    ```
-
 
 2. **Switch (Cisco Catalyst 3550 SERIES)**:
 
@@ -31,7 +35,7 @@ The commands we used to reset to factory default settings before starting:
 
 ## The configuration steps on Cisco ASA 5510
 
-**Connect to the Console Port with Mac oS**
+* **Connect to the Console Port with MacOS or Linux**
 
    - Step 1. Use the Finder to go to Applications > Utilities > Terminal
 
@@ -46,9 +50,8 @@ The commands we used to reset to factory default settings before starting:
    crw-rw-rw- 1 root wheel 9, 66 Apr 1 16:46 tty.usbmodem1a21 
    macbook:user$ screen /dev/tty.usbmodem1a21 9600
    ```
-**Connect to the Console Port with Windows**
-
-Ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
+* **Connect to the Console Port with Windows**<br>
+   Ensure that you have console access to the Cisco ASA 5510 through a console cable and terminal emulation software like PuTTY or a similar tool.
 
 1. **Connect to the Cisco ASA 5510**:
    - Connect one end of the console cable to the console port on the ASA 5510.
