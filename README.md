@@ -10,7 +10,7 @@ Equipement:
 * Windows Server 2019
 
 
-## Configuring Cisco equipment to it's factory settings 
+## Configuring Cisco equipment to its factory settings 
 
 1. **Firewall (Cisco ASA 5510)**:
    ```shell
