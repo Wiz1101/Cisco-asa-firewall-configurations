@@ -315,11 +315,11 @@ Equipement:
       - To configure the BVI1 interface and assign an IP address and netmask, use the following commands:
       
       ```
-         enable
-         configure terminal
-         interface BVI1
-         ip address <IP_ADDRESS> <NETMASK>
-         exit
+      ap# enable
+      ap# configure terminal
+      ap# interface BVI1
+      ap# ip address <IP_ADDRESS> <NETMASK>
+      ap# exit
       ```
 
       Replace `<IP_ADDRESS>` with the desired IP address (e.g., `192.168.1.2`) and `<NETMASK>` with the subnet mask (e.g., `255.255.255.0`).
@@ -328,7 +328,7 @@ Equipement:
       - To save your configuration, use the following command:
       
       ```
-         write memory
+      ap# write memory
       ```
 
       This command saves your changes to the device's configuration.
