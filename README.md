@@ -13,10 +13,10 @@ Equipement:
 
 1. **Firewall (Cisco ASA 5510)**:
    ```shell
-   G5-ASA-5510> enable
-   G5-ASA-5510# conf t
-   G5-ASA-5510(config)# configure factory-default
-   G5-ASA-5510(config)# wr mem
+   ciscoasa> enable
+   ciscoasa# conf t
+   ciscoasa(config)# configure factory-default
+   ciscoasa(config)# wr mem
    ```
 
 2. **Switch (Cisco Catalyst 3550 SERIES)**:
@@ -35,7 +35,7 @@ Equipement:
    ap# reload
    ```
 
-## The configuration steps on Firewall (Cisco ASA 5510)
+## Configuring Firewall (Cisco ASA 5510)
 
 * **Connect to the Console Port with MacOS or Linux**
 
@@ -74,25 +74,25 @@ Equipement:
    - You can set a hostname for the ASA if desired:
 
    ```shell
-   ciscoasa(config)# hostname G5-ASA-5510
-   G5-ASA-5510(config)# wr mem
+   ciscoasa(config)# hostname Firewall
+   Firewall(config)# wr mem
    ```
 
 4. **Configuring Interfaces**:
    - Define the outside and inside interfaces.
 
    ```shell
-   G5-ASA-5510(config)# int Ethernet0/0
-   G5-ASA-5510(config)# nameif outside
-   G5-ASA-5510(config)# ip address 192.168.0.50 255.255.255.0
-   G5-ASA-5510(config)# security-level 0
-   G5-ASA-5510(config)# no shut
-   G5-ASA-5510(config)# int Ethernet0/1
-   G5-ASA-5510(config)# nameif inside
-   G5-ASA-5510(config)# ip address 10.0.0.1 255.255.255.0
-   G5-ASA-5510(config)# security-level 100
-   G5-ASA-5510(config)# no shut
-   G5-ASA-5510(config)# wr mem
+   Firewall(config)# int Ethernet0/0
+   Firewall(config)# nameif outside
+   Firewall(config)# ip address 192.168.0.50 255.255.255.0
+   Firewall(config)# security-level 0
+   Firewall(config)# no shut
+   Firewall(config)# int Ethernet0/1
+   Firewall(config)# nameif inside
+   Firewall(config)# ip address 10.0.0.1 255.255.255.0
+   Firewall(config)# security-level 100
+   Firewall(config)# no shut
+   Firewall(config)# wr mem
    ```
 
    - The above configuration says that Ethernet0/0 will be the interface for outside network and Ethernet0/1 is the interface for inside network.
@@ -100,7 +100,7 @@ Equipement:
 5. **Configuring Routing(from inside to outside)**:
 
    ```shell
-   G5-ASA-5510(config)# route outside 0 0 192.168.0.1
+   Firewall(config)# route outside 0 0 192.168.0.1
    ```
 
 
@@ -109,43 +109,125 @@ Equipement:
     - Address range of DHCP inside network: 10.0.0.100 - 10.0.0.200 
     - We binded DNS to OpenDNS servers (More Secure)
    ```shell
-   G5-ASA-5510(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
-   G5-ASA-5510(config)# dhcpd dns 8.8.8.8 8.8.4.4
-   G5-ASA-5510(config)# dhcpd lease 7200                          
-   G5-ASA-5510(config)# dhcpd enable inside 
-   G5-ASA-5510(config)# wr mem
+   Firewall(config)# dhcpd address 10.0.0.100-10.0.0.200 inside
+   Firewall(config)# dhcpd dns 8.8.8.8 8.8.4.4
+   Firewall(config)# dhcpd lease 7200                          
+   Firewall(config)# dhcpd enable inside 
+   Firewall(config)# wr mem
    ```
 
 7. **Configuring NAT**:
    - Configure basic NAT to allow inside devices to access the internet:
 
    ```shell
-   G5-ASA-5510(config)# object network myNatPool
-   G5-ASA-5510(config-network-object)# range 192.168.0.51 192.168.0.52
-   G5-ASA-5510(config-network-object)# exit
-   G5-ASA-5510(config)# object network myInsNet  
-   G5-ASA-5510(config-network-object)# subnet 10.0.0.0 255.255.255.0  
-   G5-ASA-5510(config-network-object)# nat (inside,outside) dynamic myNatPool
-   G5-ASA-5510(config-network-object)# exit 
-   G5-ASA-5510(config)# object network myLinServ
-   G5-ASA-5510(config-network-object)# host 192.168.0.50  
-   G5-ASA-5510(config-network-object)# nat (inside,outside) static 10.0.0.250
-   G5-ASA-5510(config-network-object)# exit
-   G5-ASA-5510(config)# same-security-traffic permit inter-interface
-   G5-ASA-5510(config)# wr mem 
+   Firewall(config)# object network myNatPool
+   Firewall(config-network-object)# range 192.168.0.51 192.168.0.52
+   Firewall(config-network-object)# exit
+   Firewall(config)# object network myInsNet  
+   Firewall(config-network-object)# subnet 10.0.0.0 255.255.255.0  
+   Firewall(config-network-object)# nat (inside,outside) dynamic myNatPool
+   Firewall(config-network-object)# exit 
+   Firewall(config)# object network myLinServ
+   Firewall(config-network-object)# host 192.168.0.50  
+   Firewall(config-network-object)# nat (inside,outside) static 10.0.0.250
+   Firewall(config-network-object)# exit
+   Firewall(config)# same-security-traffic permit inter-interface
+   Firewall(config)# wr mem 
    ```
 
 8. **Configuring Access Control List (ACL)**:
 
    ```shell
-
-   G5-ASA-5510(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0
-   G5-ASA-5510(config)# access-group allow_icmp_inside in interface inside
-   G5-ASA-5510(config)# wr mem
+   Firewall(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0
+   Firewall(config)# access-group allow_icmp_inside in interface inside
+   Firewall(config)# wr mem
    ```
 
+   ### Configuring VLANs for Firewall (Cisco ASA 5510)
+      1. Configure Subinterfaces on Cisco ASA Firewall for VLANs 
+         ```shell
+         Firewall(config)# interface e0/1.10
+         Firewall(config-subif)# vlan 10
+         Firewall(config-subif)# nameif Trusted
+         Firewall(config-subif)# security-level 100
+         Firewall(config-subif)# ip address 10.0.10.1 255.255.255.0
+         Firewall(config-subif)# exit
 
+         Firewall(config)# interface e0/1.20
+         Firewall(config-subif)# vlan 20
+         Firewall(config-subif)# nameif Guest
+         Firewall(config-subif)# security-level 50
+         Firewall(config-subif)# ip address 10.0.20.1 255.255.255.0
+         Firewall(config-subif)# exit
 
+         Firewall(config)# interface e0/1.30
+         Firewall(config-subif)# vlan 30
+         Firewall(config-subif)# nameif Admin
+         Firewall(config-subif)# security-level 100
+         Firewall(config-subif)# ip address 10.0.30.1 255.255.255.0
+         Firewall(config-subif)# exit
+
+         Firewall(config)# interface e0/1.40
+         Firewall(config-subif)# vlan 40
+         Firewall(config-subif)# nameif IOT
+         Firewall(config-subif)# security-level 100
+         Firewall(config-subif)# ip address 10.0.40.1 255.255.255.0
+         Firewall(config-subif)# exit
+         ```
+      2. Configure DHCP pools on Cisco ASA Firewall for VLANs
+         ```shell
+         Firewall(config)# dhcpd address 10.0.10.100-10.0.10.200 Trusted
+         Firewall(config)# dhcpd dns 8.8.8.8 8.8.4.4 interface Trusted 
+         Firewall(config)# dhcpd enable Trusted
+         Firewall(config)# dhcpd address 10.0.20.100-10.0.20.200 Guest 
+         Firewall(config)# dhcpd dns 8.8.8.8 8.8.4.4 interface Guest
+         Firewall(config)# dhcpd enable guest
+         Firewall(config)# dhcpd address 10.0.30.100-10.0.30.200 Admin 
+         Firewall(config)# dhcpd dns 8.8.8.8 8.8.4.4 interface Admin
+         Firewall(config)# dhcpd enable Admin
+         Firewall(config)# dhcpd address 10.0.40.100-10.0.40.200 IOT 
+         Firewall(config)# dhcpd dns 8.8.8.8 8.8.4.4 interface IOT 
+         Firewall(config)# dhcpd enable IOT
+         ```
+      3. Configure NAT on Cisco ASA Firewall for VLANs
+         ```shell
+         Firewall(config)# object network Trusted-NAT
+         Firewall(config-network-object)# subnet 10.0.10.0 255.255.255.0 
+         Firewall(config-network-object)# nat (Trusted,outside) dynamic interface
+         Firewall(config-network-object)# exit
+         Firewall(config)# object network Guest-NAT 
+         Firewall(config-network-object)# subnet 10.0.20.0 255.255.255.0
+         Firewall(config-network-object)# nat (Guest,outside) dynamic interface
+         Firewall(config-network-object)# exit
+         Firewall(config)# object network Admin-NAT 
+         Firewall(config-network-object)# subnet 10.0.30.0 255.255.255.0 
+         Firewall(config-network-object)# nat (Admin,outside) dynamic interface
+         Firewall(config-network-object)# exit
+         Firewall(config)# object network IOT-NAT 
+         Firewall(config-network-object)# subnet 10.0.40.0 255.255.255.0 
+         Firewall(config-network-object)# nat (IOT,outside) dynamic interface
+         Firewall(config-network-object)# exit
+         ```
+      4. Make Guest network reachable from outside network
+         ```shell
+         Firewall(config)# object network myWebServ
+         Firewall(config-network-object)# host [static ip on that VLAN] # In our case it's 10.0.20.113
+         Firewall(config-network-object)# nat (Guest,outside) static interface service tcp www www 
+         Firewall(config-network-object)# exit
+         ```
+
+      5. Configure ACL on Cisco ASA Firewall in general and for "myWebServ" network object 
+
+         ```shell
+         Firewall(config)# access-list inside_access_in extended permit object-group DM_INLINE_PROTOCOL_1 any any 
+         Firewall(config)# access-list inside_access_in_1 extended permit object-group DM_INLINE_PROTOCOL_2 any any 
+         Firewall(config)# access-list OUTSIDE_IN_ACL extended permit icmp any any echo-reply 
+         Firewall(config)# access-list allow_icmp_inside extended permit icmp 10.0.0.0 255.255.255.0 192.168.0.0 255.255.255.0 
+         Firewall(config)# access-list allow_icmp_inside extended permit ip any any 
+         Firewall(config)# access-list outside_access_in_1 extended permit object-group TCPUDP any object Guest-NAT eq www 
+         ```
+
+ 
 
 ## The configuration steps on Access Point Cisco Aeronet 3502 series
 **Note**: Before proceeding, make sure you have PuTTY installed on your computer.
@@ -203,6 +285,64 @@ Equipement:
       That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
 
 ## The configuration steps on Switch (Cisco Catalyst 3550 SERIES)
+
+   * **Configuring VLANs for Cisco Switch**
+      1. Create Different VLANs inside of Cisco Switch VLAN database.
+         ```shell
+         Switch#vlan database
+         Switch(vlan)# vtp server
+         Switch(vlan)# vlan 10 name Trusted
+         Switch(vlan)# vlan 20 name Guest
+         Switch(vlan)# vlan 30 name Admin
+         Switch(vlan)# vlan 40 name IOT 
+         ```
+      2. Assign trunk port to interface fa0/31 to communicate with the firewall
+         ```shell
+         Switch(config)# int fa0/31
+         Switch(config-if)# switchport trunk encapsulation dot1q
+         Switch(config-if)# switchport mode trunk
+         Switch(config-if)# switchport trunk allowed vlan all 
+         ```
+      3. Assign the rest of interfaces to specific VLANs
+         ```shell
+         Switch(config)#int fa0/1
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/2
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/3
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/4
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/5
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         .
+         .
+         .
+         .
+         Switch(config)#int fa0/16
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/17
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/18
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/19
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/20
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         ```
+
+
+
 
 
 
