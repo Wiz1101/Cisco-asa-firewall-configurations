@@ -1,10 +1,12 @@
-# Configurations on Cisco equipement
+# Configuring network with Cisco
 
 Equipement:
 
 * Firewall (Cisco ASA 5510)
 * Switch (Cisco Catalyst 3550 SERIES)
 * Access Point (Cisco Aeronet 3502 series)
+* Linux Server (Ubuntu 20.04.6)
+* Windows Server 2019
 
 
 ## Configuring Cisco equipment to it's factory settings 
@@ -33,7 +35,7 @@ Equipement:
    ap# reload
    ```
 
-## The configuration steps on Cisco ASA 5510
+## The configuration steps on Firewall (Cisco ASA 5510)
 
 * **Connect to the Console Port with MacOS or Linux**
 
@@ -125,7 +127,6 @@ Equipement:
    G5-ASA-5510(config-network-object)# subnet 10.0.0.0 255.255.255.0  
    G5-ASA-5510(config-network-object)# nat (inside,outside) dynamic myNatPool
    G5-ASA-5510(config-network-object)# exit 
-   
    G5-ASA-5510(config)# object network myLinServ
    G5-ASA-5510(config-network-object)# host 192.168.0.50  
    G5-ASA-5510(config-network-object)# nat (inside,outside) static 10.0.0.250
@@ -144,10 +145,73 @@ Equipement:
    ```
 
 
+
+
+## The configuration steps on Access Point Cisco Aeronet 3502 series
+**Note**: Before proceeding, make sure you have PuTTY installed on your computer.
+
+   - To configure a Cisco Aironet access point using PuTTY, you'll need to connect to the access point via its command-line interface (CLI) over SSH or Telnet. Here are the steps to do this:
+   1. **Connect to the Access Point**:
+      - Ensure your computer is connected to the same network as the Cisco Aironet access point.
+      - Launch PuTTY.
+
+   2. **Open a New Session**:
+      - In the PuTTY configuration window, enter the IP address or hostname of the access point in the "Host Name (or IP address)" field.
+      - Choose the connection type:
+      - For SSH, select "SSH."
+      - For Telnet, select "Telnet."
+      - Enter the port number (usually 22 for SSH or 23 for Telnet).
+
+   3. **Initiate the Connection**:
+      - Click the "Open" button to initiate the connection.
+
+   4. **Login**:
+      - Once the connection is established, you will be prompted to log in.
+      - Enter the username and password for the access point. By default, the username and password are both "cisco" (without the quotes). If these credentials have been changed, use the updated login credentials.
+
+   5. **Access the Command-Line Interface (CLI)**:
+      - After successfully logging in, you will have access to the command-line interface (CLI) of the Cisco Aironet access point.
+
+   6. **Configure the BVI1 Interface**:
+      - To configure the BVI1 interface and assign an IP address and netmask, use the following commands:
+      
+      ```
+         enable
+         configure terminal
+         interface BVI1
+         ip address <IP_ADDRESS> <NETMASK>
+         exit
+      ```
+
+      Replace `<IP_ADDRESS>` with the desired IP address (e.g., `192.168.1.2`) and `<NETMASK>` with the subnet mask (e.g., `255.255.255.0`).
+
+   7. **Save Configuration**:
+      - To save your configuration, use the following command:
+      
+      ```
+         write memory
+      ```
+
+      This command saves your changes to the device's configuration.
+
+   8. **Exit PuTTY**:
+      - Type `exit` to log out of the access point's CLI, and then close the PuTTY session.
+
+   9. **Verify Configuration**:
+      - You can verify the configuration by trying to access the access point's web GUI using the new IP address you configured for the BVI1 interface.
+
+      That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
+
+## The configuration steps on Switch (Cisco Catalyst 3550 SERIES)
+
+
+
+
 ## The configuration steps on Servers
 
-1. **Configuration steps for assigning static IP to linux server**:
-   1. We have to edit "/etc/netplan/00-installer-config.yaml" file
+1. **Configuring Linux server:**
+   1.  Assigning static IP to the server
+   - We have to edit "/etc/netplan/00-installer-config.yaml" file
       ```shell
       network:
          version: 2
@@ -155,128 +219,42 @@ Equipement:
          ethernets:
             eth0:
                addresses:
-                  - 10.0.0.250/24
+                  - [*IP]/24
                routes:
                   - to: default
-                  via: 10.10.10.1
+                  via: [*Gateway IP]
                nameservers:
                   addresses: [8.8.8.8, 8.8.4.4]
       ```
-   2. ```shell
+       ```shell
       $ sudo netplan apply
       ```
+   2. Configuring HTTP and FTP server on linux:
    
-2. **Configuring HTTP and FTP server on linux**:
-   
-   ```shell
-   $ sudo apt install apache2
-   $ sudo apt install vsftpd
-   $ sudo ufw enable 
-   $ sudo ufw allow 'Apache Full'
-   $ sudo ufw allow 20,21,22,990/tcp
-   $ sudo ufw allow 40000:50000/tcp
-   $ systemctl status apache2
-   ```
-   - Also we edited /etc/vsftpd.conf file for FTP on the ubuntu server side where we added these two rules in the end of the file:
-   ```shell
-   pasv_enable=Yes
-   pasv_max_port=50000
-   pasv_min_port=40000
-   ```
+      ```shell
+      $ sudo apt install apache2
+      $ sudo apt install vsftpd
+      $ sudo ufw enable 
+      $ sudo ufw allow 'Apache Full'
+      $ sudo ufw allow 20,21,22,990/tcp
+      $ sudo ufw allow 40000:50000/tcp
+      $ systemctl status apache2
+      ```
+      - Also we edited /etc/vsftpd.conf file for FTP service on the ubuntu server side where we added these two rules in the end of the file:
+      ```shell
+      pasv_enable=Yes
+      pasv_max_port=50000
+      pasv_min_port=40000
+      ```
 
+2. **Configuring Windows Server:**
 
-3. **Configuring Active Directory on Windows Server**:
-
-   1. Connect the ethernet cable to the laptop since promoting to Domain controller you need active connection
-   2. Assign static ip from outside of the pool range to the server like 10.0.0.254.
-    Control Panel --> Network and Internet --> Network and Sharing Center --> Change Adapter Settings which is on the left hand side --> Select the Ethernet and right click on Priorities --> Choose Internet Protocol version 4 --> choose properties and assign the required IP and gateway + the DNS also.check it with ipconfig.
-   3. Now you can finish up promoting the server to domain controller
-   4. On Internet Explorer go to Tools which is on the right top
-   5. Choose Internet Options
-   6. Go to security panel which is on top right of the new window
-   7. Choose Custom Level
-   8. Find Downloads
-   9. File Download -- Enable
-   10. Font Download  -- Enable
-   11. Enable. NET framework -- Enable
-   12. Find Scripting at the same page1
-   13. Active Scripting -- Enable
-   14. Allow programmatic clipboard access -- Promt
-   15. Allow Status bar updates via script --Enable
-   16. Scripting for Java applets -- Enable
-   17. Go to search bar and find Windows Firewall (not with advanced security)
-   19. on the right side choose Turn on windows firewall on or off
-   20. Domain Network settings -- Notify me when Windows firewall blocks a new app ( Windows firewall turned on here)
-   21. Private Network settings -- Notify me when Windows Firewall blocks a new app ( Windows firewall is on here)
-   22. Public network settings -- Notify me when windows firewall blocks a new app ( Firewall is on here)
-   23. Download Google Chrome
-   24. Install Java 11
-   25. Once downloaded get the Unifi software https://ui.com/download/releases/network-server try to get one of the older version 7.4.162.
-   26. Open the unifi software
-
-## The configuration steps on APs
-**1. UniFi U6-Pro**
- - To configure UniFi U6-Pro AP we followed guide on my moodle, downloaded one older UniFi server. Allowed the server thorugh the windows firewall. Simple setup with wifi in the UniFi server UI.
-
-**2. Access Point Cisco Aeronet 3502 series**
-- To configure a Cisco Aironet access point using PuTTY, you'll need to connect to the access point via its command-line interface (CLI) over SSH or Telnet. Here are the steps to do this:
-
-**Note**: Before proceeding, make sure you have PuTTY installed on your computer.
-
-1. **Connect to the Access Point**:
-   - Ensure your computer is connected to the same network as the Cisco Aironet access point.
-   - Launch PuTTY.
-
-2. **Open a New Session**:
-   - In the PuTTY configuration window, enter the IP address or hostname of the access point in the "Host Name (or IP address)" field.
-   - Choose the connection type:
-     - For SSH, select "SSH."
-     - For Telnet, select "Telnet."
-   - Enter the port number (usually 22 for SSH or 23 for Telnet).
-
-3. **Initiate the Connection**:
-   - Click the "Open" button to initiate the connection.
-
-4. **Login**:
-   - Once the connection is established, you will be prompted to log in.
-   - Enter the username and password for the access point. By default, the username and password are both "cisco" (without the quotes). If these credentials have been changed, use the updated login credentials.
-
-5. **Access the Command-Line Interface (CLI)**:
-   - After successfully logging in, you will have access to the command-line interface (CLI) of the Cisco Aironet access point.
-
-6. **Configure the BVI1 Interface**:
-   - To configure the BVI1 interface and assign an IP address and netmask, use the following commands:
-   
-   ```
-   enable
-   configure terminal
-   interface BVI1
-   ip address <IP_ADDRESS> <NETMASK>
-   exit
-   exit
-   ```
-
-   Replace `<IP_ADDRESS>` with the desired IP address (e.g., `192.168.1.2`) and `<NETMASK>` with the subnet mask (e.g., `255.255.255.0`).
-
-7. **Save Configuration**:
-   - To save your configuration, use the following command:
-   
-   ```
-   write memory
-   ```
-
-   This command saves your changes to the device's configuration.
-
-8. **Exit PuTTY**:
-   - Type `exit` to log out of the access point's CLI, and then close the PuTTY session.
-
-9. **Verify Configuration**:
-   - You can verify the configuration by trying to access the access point's web GUI using the new IP address you configured for the BVI1 interface.
-
-That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
-
-## Replacing Cisco ASA 5510 with Netgate SG-2100 Firewall
-
-
-
-
+   1. Connect the ethernet cable to the laptop
+   2. Assign static IP to Windows Server. 
+      - Control Panel --> Network and Internet --> Network and Sharing Center --> Select the Ethernet and right click on Priorities --> Choose Internet Protocol version 4 --> choose properties and assign the required IP, gateway and DNS.
+   3. To download browser of your choice, open Internet Explorer go to Tools which on the right top corner
+   4. Choose Internet Options
+   5. Go to security panel which is on top right of the new window
+   6. Choose Custom Level
+   7. Find File Downloads and enable it
+   8. Download the browser of your choice.
