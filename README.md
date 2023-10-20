@@ -342,9 +342,9 @@ Equipement:
       That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
 
 
-## The configuration steps on Servers
+## Configuring Servers
 
-1. **Configuring Linux server:**
+**Linux server:**
    1.  Assigning static IP to the server
    - We have to edit "/etc/netplan/00-installer-config.yaml" file
       ```shell
@@ -382,7 +382,7 @@ Equipement:
       pasv_min_port=40000
       ```
 
-2. **Configuring Windows Server:**
+**Windows Server:**
 
    1. Connect the ethernet cable to the laptop
    2. Assign static IP to Windows Server. 
