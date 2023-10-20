@@ -1,5 +1,5 @@
 # Configuring network with Cisco
-A small writeup how to configure network
+A small writeup how to configure a network
 
 **Equipement:**
 
