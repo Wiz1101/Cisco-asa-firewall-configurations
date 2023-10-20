@@ -286,7 +286,7 @@ Equipement:
          ```
  
 
-## The configuration steps on Access Point Cisco Aeronet 3502 series
+## Configuring Access Point (Cisco Aeronet 3502 series)
 **Note**: Before proceeding, make sure you have PuTTY installed on your computer.
 
    - To configure a Cisco Aironet access point using PuTTY, you'll need to connect to the access point via its command-line interface (CLI) over SSH or Telnet. Here are the steps to do this:
