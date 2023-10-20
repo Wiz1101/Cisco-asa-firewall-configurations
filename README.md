@@ -1,4 +1,4 @@
-# Assignment 1
+# Configurations on Cisco ASA firewall
 
 The commands we used to reset to factory default settings before starting:
 
@@ -12,9 +12,6 @@ The commands we used to reset to factory default settings before starting:
    G5-ASA-5510(config)# wr mem
    ```
 
-1. **Firewall (Netgate SG-2100)**:
-    - We chose the 4th option to reset to default factory settings 
-   ![Alt text](<Screenshot 2023-09-12 at 13.30.00.png>)
 
 2. **Switch (Cisco Catalyst 3550 SERIES)**:
 
