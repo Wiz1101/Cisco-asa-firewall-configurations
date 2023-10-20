@@ -227,6 +227,63 @@ Equipement:
          Firewall(config)# access-list outside_access_in_1 extended permit object-group TCPUDP any object Guest-NAT eq www 
          ```
 
+
+## Configuring Switch (Cisco Catalyst 3550 SERIES)
+
+   * **Configuring VLANs for Cisco Switch**
+      1. Create Different VLANs inside of Cisco Switch VLAN database.
+         ```shell
+         Switch#vlan database
+         Switch(vlan)# vtp server
+         Switch(vlan)# vlan 10 name Trusted
+         Switch(vlan)# vlan 20 name Guest
+         Switch(vlan)# vlan 30 name Admin
+         Switch(vlan)# vlan 40 name IOT 
+         ```
+      2. Assign trunk port to interface fa0/31 to communicate with the firewall
+         ```shell
+         Switch(config)# int fa0/31
+         Switch(config-if)# switchport trunk encapsulation dot1q
+         Switch(config-if)# switchport mode trunk
+         Switch(config-if)# switchport trunk allowed vlan all 
+         ```
+      3. Assign the rest of interfaces to specific VLANs
+         ```shell
+         Switch(config)#int fa0/1
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/2
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/3
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/4
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         Switch(config)#int fa0/5
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 10
+         .
+         .
+         .
+         .
+         Switch(config)#int fa0/16
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/17
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/18
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/19
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         Switch(config)#int fa0/20
+         Switch(config-if)#switchport mode access
+         Switch(config-if)#switchport access vlan 40
+         ```
  
 
 ## The configuration steps on Access Point Cisco Aeronet 3502 series
@@ -283,68 +340,6 @@ Equipement:
       - You can verify the configuration by trying to access the access point's web GUI using the new IP address you configured for the BVI1 interface.
 
       That's it! You have configured the Cisco Aironet access point's BVI1 interface using PuTTY. Be sure to follow best practices for securing your access point and changing default login credentials for improved security.
-
-## The configuration steps on Switch (Cisco Catalyst 3550 SERIES)
-
-   * **Configuring VLANs for Cisco Switch**
-      1. Create Different VLANs inside of Cisco Switch VLAN database.
-         ```shell
-         Switch#vlan database
-         Switch(vlan)# vtp server
-         Switch(vlan)# vlan 10 name Trusted
-         Switch(vlan)# vlan 20 name Guest
-         Switch(vlan)# vlan 30 name Admin
-         Switch(vlan)# vlan 40 name IOT 
-         ```
-      2. Assign trunk port to interface fa0/31 to communicate with the firewall
-         ```shell
-         Switch(config)# int fa0/31
-         Switch(config-if)# switchport trunk encapsulation dot1q
-         Switch(config-if)# switchport mode trunk
-         Switch(config-if)# switchport trunk allowed vlan all 
-         ```
-      3. Assign the rest of interfaces to specific VLANs
-         ```shell
-         Switch(config)#int fa0/1
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 10
-         Switch(config)#int fa0/2
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 10
-         Switch(config)#int fa0/3
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 10
-         Switch(config)#int fa0/4
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 10
-         Switch(config)#int fa0/5
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 10
-         .
-         .
-         .
-         .
-         Switch(config)#int fa0/16
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 40
-         Switch(config)#int fa0/17
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 40
-         Switch(config)#int fa0/18
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 40
-         Switch(config)#int fa0/19
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 40
-         Switch(config)#int fa0/20
-         Switch(config-if)#switchport mode access
-         Switch(config-if)#switchport access vlan 40
-         ```
-
-
-
-
-
 
 
 ## The configuration steps on Servers
