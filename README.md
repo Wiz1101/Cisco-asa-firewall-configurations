@@ -297,8 +297,8 @@ Equipement:
    2. **Open a New Session**:
       - In the PuTTY configuration window, enter the IP address or hostname of the access point in the "Host Name (or IP address)" field.
       - Choose the connection type:
-      - For SSH, select "SSH."
-      - For Telnet, select "Telnet."
+         - For SSH, select "SSH."
+         - For Telnet, select "Telnet."
       - Enter the port number (usually 22 for SSH or 23 for Telnet).
 
    3. **Initiate the Connection**:
