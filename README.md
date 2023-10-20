@@ -1,7 +1,7 @@
 # Configuring network with Cisco
 A small writeup how to configure network
 
-Equipement:
+**Equipement:**
 
 * Firewall (Cisco ASA 5510)
 * Switch (Cisco Catalyst 3550 SERIES)
