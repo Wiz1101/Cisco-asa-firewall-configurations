@@ -26,6 +26,7 @@ A small writeup how to configure a network
    Switch> en
    Switch# write erase 
    Switch# reload 
+   System configuration has been modified. Save? [yes/no]: no
    ```
 
 2. **Access Point (Cisco Aeronet 3502 series)**:
