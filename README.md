@@ -320,6 +320,20 @@ A small writeup how to configure a network
       ap# interface BVI1
       ap# ip address <IP_ADDRESS> <NETMASK>
       ap# exit
+      // Enabling Guest Network 
+      ap# conf t
+      ap(config)# dot11 ssid Open-Lab
+      ap(config-ssid)# authentication open 
+      ap(config-ssid)# guest-mode
+      ap(config-ssid)# exit
+      ap(config)# interface Dot11Radio0
+      ap(config-if)# no ip address
+      ap(config-if)# ssid Open-Lab
+      ap(config-if)# channel 1
+      ap(config-if)# antenna gain 2
+      ap(config-if)# no shut
+      ap(config-if)# exit
+      ap#
       ```
 
       Replace `<IP_ADDRESS>` with the desired IP address (e.g., `192.168.1.2`) and `<NETMASK>` with the subnet mask (e.g., `255.255.255.0`).
